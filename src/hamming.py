@@ -2,7 +2,7 @@
 
 def hamming_distance(s1, s2):
     if len(s1) != len(s2):
-        raise Exeption("errorll: different length")
+        raise Exeption("error: different length")
     else:
         distance = 0
         for i, c in enumerate(s1):
