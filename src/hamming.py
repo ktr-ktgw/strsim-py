@@ -1,6 +1,6 @@
 
 
-def hamming_distance(s1, s2):
+def hamming_distance(s1: str, s2: str) -> int:
     if len(s1) != len(s2):
         raise Exeption("error: different length")
     else:

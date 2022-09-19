@@ -1,4 +1,4 @@
-def levenshtein_distance(s1, s2):
+def levenshtein_distance(s1: str, s2: str) -> int:
     ld = [[0] * (len(s2)+1) for i in range(len(s1)+1)]
     ld[0] = range(len(s2)+1)
 
@@ -14,8 +14,7 @@ def levenshtein_distance(s1, s2):
     return ld[len(s1)][len(s2)]
 
 
-
-def levenshtein_distance_recursive(s1, s2):
+def levenshtein_distance_recursive(s1: str, s2: str) -> int:
     def lev(a, b, i, j):
         if i == 0: return j
         elif j == 0: return i
