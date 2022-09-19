@@ -1,0 +1,6 @@
+jiwer
+sacrebleu
+sacremoses
+nltk
+mecab-python3
+ipadic
