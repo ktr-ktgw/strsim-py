@@ -6,10 +6,13 @@ from jaro_winkler import jaro_similarity
 from meteor import sentence_meteor
 from bleu import sentence_bleu
 from ter import sentence_ter
+from sbert_cosine import sbert_cosine_score
+from bert_score_f1 import bert_score_f1
 
 import jiwer
 import MeCab
 import ipadic
+
 
 class Sentence:
     ja_tokenizer = MeCab.Tagger(f'-O wakati {ipadic.MECAB_ARGS}')
@@ -30,6 +33,8 @@ METRICS = {
     "ter": sentence_ter,
     "meteor": sentence_meteor,
     "bleu": sentence_bleu,
+    "sbert": sbert_cosine_score,
+    "bert_score": sentence_bleu,
 }
 TOKENIZE = {
     "no-tokenize": Sentence.notokenize,
@@ -43,7 +48,10 @@ def main(opt):
     with opt.file1 as fin1, opt.file2 as fin2:
         for line1 in fin1:
             line2 = fin2.readline()
-            line_sim = calc_strsim(tokenize(line1), tokenize(line2))
+            if opt.metrics == "sbert":
+                line_sim = calc_strsim(tokenize(line1), tokenize(line2), lang=opt.lang)
+            else:
+                line_sim = calc_strsim(tokenize(line1), tokenize(line2))
             opt.out.write(f"{line_sim}\n")
 
 
@@ -54,6 +62,7 @@ if __name__ == '__main__':
     parser.add_argument("-o", "--out", nargs="?", type=argparse.FileType('w'), default=sys.stdout)
     parser.add_argument("-m", "--metrics", type=str, choices=METRICS.keys(), help="sentence similarity/distance metric")
     parser.add_argument("-t", "--tokenize", type=str, choices=TOKENIZE.keys(), default="no-tokenize")
+    parser.add_argument("-l", "--lang", type=str, choices=["ja", "en"], default="ja")
     #parser.add_argument("-v", "--verbose", action="store_true", help="increase output verbosity")
     args = parser.parse_args()
     main(args)

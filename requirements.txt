@@ -4,3 +4,6 @@ sacremoses
 nltk
 mecab-python3
 ipadic
+bert-score
+transformers
+torch
